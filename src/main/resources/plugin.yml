@@ -1,0 +1,7 @@
+name: build-system
+version: 1.0
+author: Marlin
+api-version: 1.17
+main: net.krentox.build.BuildBootstrap
+
+commands:
