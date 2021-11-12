@@ -1,13 +1,13 @@
 package net.krentox.build;
 
-import com.google.common.reflect.ClassPath;
 import lombok.Getter;
-import net.krentox.build.events.PlayerInteractListener;
-import net.krentox.build.events.PlayerJoinListener;
+import net.krentox.build.events.PlayerInventoryClickListener;
+import net.krentox.build.management.inventory.GameInventory;
 import org.bukkit.Bukkit;
-import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import net.krentox.build.events.PlayerJoinListener;
+import net.krentox.build.events.PlayerInteractListener;
 
 public class BuildBootstrap extends JavaPlugin implements IPluginRegister {
 
@@ -29,6 +29,9 @@ public class BuildBootstrap extends JavaPlugin implements IPluginRegister {
 
     @Override
     public void onEnable() {
+
+        //register inventories
+        GameInventory.INVENTORY_LIST.forEach(GameInventory::registerInventory);
 
         //register events
         this.registerEvents();
@@ -52,10 +55,12 @@ public class BuildBootstrap extends JavaPlugin implements IPluginRegister {
 
         pluginManager.registerEvents(new PlayerJoinListener(), this);
         pluginManager.registerEvents(new PlayerInteractListener(), this);
+        pluginManager.registerEvents(new PlayerInventoryClickListener(), this);
     }
 
     @Override
     public void registerClasses() {
 
     }
+
 }

@@ -1,13 +1,14 @@
 package net.krentox.build.management.item;
 
+import net.krentox.build.management.inventory.GameInventory;
+import net.krentox.build.management.inventory.NavigationInventory;
 import net.krentox.build.utils.ItemBuilder;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-public class MenuItem extends GameItem {
+public class NavigationItem extends GameItem {
 
     @Override
     public ItemStack getItemStack() {
@@ -21,6 +22,6 @@ public class MenuItem extends GameItem {
 
     @Override
     public void onInteract(PlayerInteractEvent event) {
-        Bukkit.broadcastMessage("TEST");
+        GameInventory.getInventoryByClass(NavigationInventory.class).openInventory(event.getPlayer());
     }
 }

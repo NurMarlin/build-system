@@ -1,6 +1,8 @@
 package net.krentox.build.events;
 
+import net.krentox.build.management.inventory.GameInventory;
 import net.krentox.build.management.item.GameItem;
+import net.krentox.build.management.item.NavigationItem;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -18,7 +20,6 @@ public class PlayerJoinListener implements Listener {
 
         //cancel event message
         event.setJoinMessage(null);
-
     }
 
 }

@@ -5,16 +5,17 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 
 public abstract class GameItem {
 
     /**
      * create list for game items
      */
-    public static final List<GameItem> ITEM_LIST = new ArrayList<>(){{
-        this.add(new MenuItem());
+    public static final Collection<GameItem> ITEM_LIST = new ArrayList<>(){{
+        this.add(new NavigationItem());
     }};
+
 
     /**
      * The item's material
