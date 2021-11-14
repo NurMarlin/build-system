@@ -16,7 +16,6 @@ public abstract class GameItem {
         this.add(new NavigationItem());
     }};
 
-
     /**
      * The item's material
      *
@@ -55,6 +54,16 @@ public abstract class GameItem {
      */
     public static void updateInventory(Player player) {
         ITEM_LIST.forEach(gameItem -> gameItem.setItem(player));
+    }
+
+    /**
+     * Check if item is a game item
+     *
+     * @param itemStack target itemStack
+     * @return true or false
+     */
+    public static boolean isGameItem(ItemStack itemStack) {
+        return ITEM_LIST.stream().anyMatch(item -> item.getItemStack().equals(itemStack));
     }
 
     /**

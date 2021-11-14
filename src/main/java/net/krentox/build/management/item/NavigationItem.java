@@ -1,18 +1,18 @@
 package net.krentox.build.management.item;
 
-import net.krentox.build.management.inventory.GameInventory;
-import net.krentox.build.management.inventory.NavigationInventory;
-import net.krentox.build.utils.ItemBuilder;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import net.krentox.build.utils.ItemBuilder;
 import org.bukkit.event.player.PlayerInteractEvent;
+import net.krentox.build.management.inventory.GameInventory;
+import net.krentox.build.management.inventory.NavigationInventory;
 
 public class NavigationItem extends GameItem {
 
     @Override
     public ItemStack getItemStack() {
-        return new ItemBuilder(Material.COMPASS).setName("§6§lNavigation").setLore("§1a","§2b","§3c").toItemStack();
+        return new ItemBuilder(Material.COMPASS).setName("§6§lNavigation").setLore("§1a", "§2b", "§3c").toItemStack();
     }
 
     @Override

@@ -1,6 +1,5 @@
 package net.krentox.build.events;
 
-import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -17,7 +16,16 @@ public class PlayerInventoryClickListener implements Listener {
         }
 
         //call click event from game inventory class
-        GameInventory.INVENTORY_LIST.stream().filter(inventory -> event.getClickedInventory().equals(inventory.getInventory())).findFirst().get().onInventoryClick(event);
+        GameInventory.INVENTORY_LIST.forEach(gameInventory -> {
+
+            //check if game inventory is event inventory
+            if (!event.getClickedInventory().equals(gameInventory.getInventory())) {
+                return;
+            }
+
+            //call inventory click event
+            gameInventory.onInventoryClick(event);
+        });
     }
 
 }

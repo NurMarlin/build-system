@@ -8,69 +8,80 @@ import java.util.UUID;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 
 public class SkullBuilder {
 
-    private static Class<?> skullMetaClass;
-    private static Class<?> tileEntityClass;
-    private static Class<?> blockPositionClass;
-    private static int mcVersion;
+    /**
+     * create skull meta class instance
+     */
+    private Class<?> skullMetaClass;
 
-    static {
-        String version = org.bukkit.Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
-        mcVersion = Integer.parseInt(version.replaceAll("[^0-9]", ""));
+    /**
+     * create skull instance
+     */
+    private String url;
+
+    /**
+     * create item stack instance
+     */
+    private ItemStack itemStack;
+
+    /**
+     * Create skull builder class
+     */
+    public SkullBuilder(Skull skull) {
+        String version = Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
+
         try {
-            skullMetaClass = Class.forName("org.bukkit.craftbukkit." + version + ".inventory.CraftMetaSkull");
-            tileEntityClass = Class.forName("net.minecraft.server." + version + ".TileEntitySkull");
-            if (mcVersion > 174) {
-                blockPositionClass = Class.forName("net.minecraft.server." + version + ".BlockPosition");
-            } else {
-                blockPositionClass = null;
-            }
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            this.url = skull.url;
+            this.skullMetaClass = Class.forName("org.bukkit.craftbukkit." + version + ".inventory.CraftMetaSkull");
+        } catch (ClassNotFoundException exception) {
+            exception.printStackTrace();
         }
     }
 
     /**
      * Get custom Skull from URL
      *
-     * @param skinURL target url
      * @param displayName target displayName
      * @param lore target lore
      * @return item stack
      */
-    public ItemStack getSkull(String skinURL, String displayName, String... lore) {
-        return getSkull(skinURL, 1, displayName, lore);
+    public SkullBuilder getSkull(String displayName, String... lore) {
+        return getSkull(1, displayName, lore);
     }
 
     /**
      * Get custom Skull from URL
      *
-     * @param skinURL target url
      * @param amount target amount
      * @param displayName target displayName
      * @param lore target lore
      * @return item stack amount
      */
-    public ItemStack getSkull(String skinURL, int amount, String displayName, String... lore) {
+    public SkullBuilder getSkull(int amount, String displayName, String... lore) {
+
         ItemStack skull = new ItemStack(Material.LEGACY_SKULL_ITEM, amount, (short) 3);
         SkullMeta meta = (SkullMeta) skull.getItemMeta();
+
         try {
             Field profileField = skullMetaClass.getDeclaredField("profile");
             profileField.setAccessible(true);
-            profileField.set(meta, this.getProfile(skinURL));
+            profileField.set(meta, this.getProfile());
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+
         meta.setDisplayName(displayName);
         ArrayList<String> loreA = new ArrayList<>(Arrays.asList(lore));
         meta.setLore(loreA);
         skull.setItemMeta(meta);
-        return skull;
+        itemStack = skull;
+        return this;
     }
 
     /**
@@ -88,13 +99,22 @@ public class SkullBuilder {
     /**
      * Get GameProfile from skin url
      *
-     * @param skinURL target url
      * @return GameProfile class
      */
-    private GameProfile getProfile(String skinURL) {
+    private GameProfile getProfile() {
         GameProfile profile = new GameProfile(UUID.randomUUID(), null);
-        Property property = new Property("textures", skinURL);
+        Property property = new Property("textures", this.url);
         profile.getProperties().put("textures", property);
         return profile;
     }
+
+    /**
+     * Get ItemStack
+     *
+     * @return item stack instance
+     */
+    public ItemStack toItemStack() {
+        return this.itemStack;
+    }
+
 }

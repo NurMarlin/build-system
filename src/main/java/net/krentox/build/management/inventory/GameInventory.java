@@ -6,6 +6,7 @@ import java.util.Collection;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.ItemStack;
 
 public abstract class GameInventory {
 
@@ -50,12 +51,37 @@ public abstract class GameInventory {
     public abstract int getSlots();
 
     /**
+     * Fill inventory with item stack
+     *
+     * @param start target start
+     * @param stop target stop
+     * @param itemStack target item stack
+     */
+    public void fillInventory(int start, int stop, ItemStack itemStack) {
+
+        for (int i = start; i < stop; i++) {
+            this.getInventory().setItem(i, itemStack);
+        }
+
+    }
+
+    /**
      * Open Inventory for player
      *
      * @param player target player
      */
     public void openInventory(Player player) {
-       player.openInventory(this.getInventory());
+        player.openInventory(this.getInventory());
+    }
+
+    /**
+     * Check if inventory is a game inventory
+     *
+     * @param inventory target inventory
+     * @return true or false
+     */
+    public static boolean isGameInventory(Inventory inventory) {
+        return INVENTORY_LIST.stream().anyMatch(gameInventory -> gameInventory.getInventory().equals(inventory));
     }
 
     /**

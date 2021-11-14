@@ -21,8 +21,16 @@ public class PlayerInteractListener implements Listener {
             return;
         }
 
-        //call item event
-        GameItem.ITEM_LIST.stream().filter(gameItem -> event.getItem().equals(gameItem.getItemStack())).findFirst().get().onInteract(event);
+        GameItem.ITEM_LIST.forEach(gameItem -> {
+
+            //check if game item is event item
+            if (!event.getItem().equals(gameItem.getItemStack())) {
+                return;
+            }
+
+            //call interact event
+            gameItem.onInteract(event);
+        });
     }
 
 }

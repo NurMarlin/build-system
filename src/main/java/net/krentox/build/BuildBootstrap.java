@@ -2,6 +2,7 @@ package net.krentox.build;
 
 import lombok.Getter;
 import net.krentox.build.events.PlayerInventoryClickListener;
+import net.krentox.build.events.WorldChangeListener;
 import net.krentox.build.management.inventory.GameInventory;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
@@ -54,6 +55,7 @@ public class BuildBootstrap extends JavaPlugin implements IPluginRegister {
         PluginManager pluginManager = Bukkit.getPluginManager();
 
         pluginManager.registerEvents(new PlayerJoinListener(), this);
+        pluginManager.registerEvents(new WorldChangeListener(), this);
         pluginManager.registerEvents(new PlayerInteractListener(), this);
         pluginManager.registerEvents(new PlayerInventoryClickListener(), this);
     }
